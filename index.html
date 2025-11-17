@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduLearn Pro - Online Courses & Gift Vouchers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
+        .navbar { background: #1e3a8a; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .hero { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; padding: 120px 0; text-align: center; }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; }
+        .course-card { transition: all 0.3s; border: none; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        .course-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .course-img { height: 200px; object-fit: cover; }
+        .price { font-size: 1.8rem; color: #16a34a; font-weight: bold; }
+        .old-price { text-decoration: line-through; color: #94a3b8; }
+        .enroll-btn { background: #dc2626; border: none; font-weight: bold; }
+        .enroll-btn:hover { background: #b91c1c; }
+        .credit-card { width: 380px; height: 240px; margin: 30px auto; perspective: 1000px; font-family: 'Courier New'; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .card-front { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; }
+        .card-back { background: #f1f5f9; color: #1e293b; transform: rotateY(180deg); }
+        .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; padding: 20px; transition: transform 0.6s; }
+        .credit-card:hover .card-front { transform: rotateY(-180deg); }
+        .credit-card:hover .card-back { transform: rotateY(0deg); }
+        .chip { width: 50px; height: 35px; background: gold; border-radius: 6px; }
+        .card-number { font-size: 1.4em; letter-spacing: 3px; }
+        .card-brand { font-size: 2em; font-weight: bold; }
+        footer { background: #1e293b; color: #cbd5e1; padding: 50px 0 20px; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">EduLearn Pro</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="nav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="#gift-voucher">Gift Voucher</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section id="home" class="hero">
+    <div class="container">
+        <h1>Learn Skills That Matter</h1>
+        <p class="lead fs-3">Online Courses in Hindi & English | Lifetime Access | Certificates</p>
+        <a href="#courses" class="btn btn-warning btn-lg fw-bold">Browse Courses</a>
+    </div>
+</section>
+
+<!-- Courses -->
+<section id="courses" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5 display-4">Our Popular Courses</h2>
+        <div class="row" id="course-grid"></div>
+    </div>
+</section>
+
+<!-- Gift Voucher Section -->
+<section id="gift-voucher" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5 display-5">Gift a Course – Gift Knowledge!</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <form id="voucher-form" class="card p-4 shadow-lg">
+                    <div class="mb-3">
+                        <label class="form-label">Recipient Name</label>
+                        <input type="text" id="voucher-name" class="form-control form-control-lg" placeholder="Enter name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Currency</label>
+                        <select id="voucher-currency" class="form-select form-select-lg">
+                            <option value="INR">INR (₹)</option>
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Gift Amount <span id="currency-symbol">₹</span></label>
+                        <input type="number" id="voucher-amount" class="form-control form-control-lg" min="10" placeholder="Enter custom amount" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Your Message (Optional)</label>
+                        <textarea id="voucher-message" class="form-control" rows="2" placeholder="Wishing you success in learning!"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">4-Digit PIN (for redemption)</label>
+                        <input type="password" id="voucher-pin" class="form-control form-control-lg" maxlength="4" placeholder="1234" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-lg w-100">Generate Gift Voucher</button>
+                </form>
+
+                <!-- Result -->
+                <div id="voucher-result" class="d-none mt-5 text-center">
+                    <h3 class="text-success mb-4">Gift Voucher Ready!</h3>
+                    <div id="voucher-card" class="credit-card">
+                        <div class="card-front">
+                            <div class="chip d-inline-block"></div>
+                            <div class="mt-4">
+                                <div class="card-number" id="card-number">GIFT 0000 0000 0000</div>
+                                <div class="card-holder mt-4" id="card-holder">GIFT RECIPIENT</div>
+                                <div class="position-absolute bottom-0 end-0 me-4 mb-3">
+                                    <div class="card-brand">EduLearn</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back text-start">
+                            <div class="bg-dark text-white p-3 rounded d-inline-block">
+                                Amount: <span id="gift-symbol">₹</span><span id="gift-amount">999</span>
+                            </div>
+                            <div class="mt-3">PIN: <strong id="gift-pin">1234</strong></div>
+                            <div class="mt-3 small fst-italic" id="gift-message">Happy Learning!</div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button id="download-voucher" class="btn btn-primary btn-lg me-3">Download PNG</button>
+                        <button id="print-voucher" class="btn btn-secondary btn-lg">Print</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About & Contact -->
+<section id="about" class="py-5 bg-light">
+    <div class="container text-center">
+        <h2>Why EduLearn Pro?</h2>
+        <div class="row mt-4">
+            <div class="col-md-4"><i class="fas fa-infinity fa-3x text-primary"></i><h5>Lifetime Access</h5></div>
+            <div class="col-md-4"><i class="fas fa-certificate fa-3x text-success"></i><h5>Certificate</h5></div>
+            <div class="col-md-4"><i class="fas fa-headset fa-3x text-warning"></i><h5>24×7 Support</h5></div>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="py-5">
+    <div class="container text-center">
+        <h2>Contact Us</h2>
+        <p class="fs-4">WhatsApp: <a href="https://wa.me/917378646180">7378646180</a> | Email: musaddikj09@gmail.com</p>
+    </div>
+</section>
+
+<footer>
+    <div class="container text-center">
+        <p>&copy; 2025 EduLearn Pro | International Gift Vouchers Available (INR, USD, EUR)</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const courses = [
+        { id:1, name:"Complete Web Development Bootcamp 2026", price:799, oldPrice:4999, img:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600", desc:"HTML, CSS, JS, React, Node.js + Projects" },
+        { id:2, name:"Digital Marketing Masterclass (Hindi)", price:699, oldPrice:3999, img:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600", desc:"SEO, Facebook Ads, Instagram Growth" },
+        { id:3, name:"Python for Beginners to Advanced", price:599, oldPrice:3499, img:"https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=600", desc:"Python, Django, Data Science Basics" },
+        { id:4, name:"Graphic Design with Canva & Photoshop", price:549, oldPrice:2999, img:"https://cdn.prod.website-files.com/61cdf3c5e0b8152652e01082/68532ba281d5309e6dae4d62_Graphic%20design.webp", desc:"Logo, Poster, Social Media Designs" },
+        { id:5, name:"Stock Market & Trading for Beginners", price:899, oldPrice:5999, img:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600", desc:"Fundamental + Technical Analysis" },
+        { id:6, name:"Spoken English + Personality Development", price:499, oldPrice:2499, img:"https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600", desc:"Fluency, Interview Skills, Confidence" }
+    ];
+
+    function loadCourses() {
+        const grid = document.getElementById('course-grid');
+        courses.forEach(c => {
+            grid.innerHTML += `
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card course-card h-100">
+                        <img src="${c.img}" class="card-img-top course-img" alt="${c.name}" onerror="this.src='https://via.placeholder.com/600x400?text=Graphic+Design'">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">${c.name}</h5>
+                            <p class="card-text flex-grow-1">${c.desc}</p>
+                            <div class="mt-auto">
+                                <p class="mb-2">
+                                    <span class="price">₹${c.price}</span>
+                                    <span class="old-price ms-2">₹${c.oldPrice}</span>
+                                </p>
+                                <button class="btn enroll-btn text-white w-100" onclick="enrollNow(${c.id})">
+                                    Enroll Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+        });
+    }
+
+    function enrollNow(id) {
+        const course = courses.find(c => c.id === id);
+        alert(`Redirecting to Razorpay for "${course.name}"\nAmount: ₹${course.price}`);
+    }
+
+    // Currency Symbol Update
+    document.getElementById('voucher-currency').addEventListener('change', function() {
+        const currency = this.value;
+        const symbol = currency === 'USD' ? '$' : currency === 'EUR' ? '€' : '₹';
+        document.getElementById('currency-symbol').textContent = symbol;
+    });
+
+    // Gift Voucher Generate
+    document.getElementById('voucher-form').onsubmit = function(e) {
+        e.preventDefault();
+        const name = document.getElementById('voucher-name').value.trim() || "Learner";
+        const currency = document.getElementById('voucher-currency').value;
+        const amount = document.getElementById('voucher-amount').value;
+        const message = document.getElementById('voucher-message').value.trim() || "Happy Learning!";
+        const pin = document.getElementById('voucher-pin').value;
+
+        if (pin.length !== 4 || isNaN(pin)) {
+            alert("Please enter a valid 4-digit PIN!");
+            return;
+        }
+
+        const symbol = currency === 'USD' ? '$' : currency === 'EUR' ? '€' : '₹';
+        const num = 'GIFT' + Math.floor(100000000000 + Math.random() * 900000000000);
+
+        document.getElementById('card-number').textContent = num.match(/.{4}/g).join(' ');
+        document.getElementById('card-holder').textContent = name.toUpperCase();
+        document.getElementById('gift-symbol').textContent = symbol;
+        document.getElementById('gift-amount').textContent = amount;
+        document.getElementById('gift-pin').textContent = pin;
+        document.getElementById('gift-message').textContent = message;
+        document.getElementById('voucher-result').classList.remove('d-none');
+    };
+
+    document.getElementById('download-voucher').onclick = () => {
+        html2canvas(document.getElementById('voucher-card'), {scale: 2}).then(canvas => {
+            const a = document.createElement('a');
+            a.href = canvas.toDataURL();
+            a.download = 'EduLearn-Gift-Voucher.png';
+            a.click();
+        });
+    };
+
+    document.getElementById('print-voucher').onclick = () => window.print();
+
+    window.onload = loadCourses;
+</script>
+</body>
+</html>
