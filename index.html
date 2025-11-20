@@ -179,32 +179,36 @@
 
     function payWithPayPal(id) {
         const course = courses.find(c => c.id === id);
+    
         const options = {
-            key: "rzp_live_RgqybfaGJlen9I", // Live Key डालो
+            key: "rzp_live_RgqybfaGJlen9I",  // अपनी Live Key यहाँ डालो
             amount: course.priceUSD * 100,
             currency: "USD",
             name: "EduLearn Pro",
             description: course.name,
             handler: function (response) {
-                alert("Payment Successful! ID: " + response.razorpay_payment_id);
-        },
-        prefill: { name: prompt("Name"), email: prompt("Email") },
-        theme: { "color": "#0070ba" },
-        config: {
-            display: {
-                blocks: { 
-                    paypal: { 
-                        name: "Pay with PayPal", 
-                        instruments: ["paypal"] 
-                    }
-                },
-                sequence: ["block.paypal"],
-                preferences: { show_default_blocks: false }
+                alert("Payment Done! ID: " + response.razorpay_payment_id);
+            },
+            prefill: {
+                name: prompt("Your Name"),
+                email: prompt("Your Email")
+            },
+            theme: { color: "#0070ba" },
+
+        // ये नई लाइन सिर्फ ऐड करो – बाकी सब पुराना ही रहेगा
+        modal: {
+            ondismiss: function() {
+                console.log("Checkout closed");
             }
+        },
+        payment_methods: {
+            paypal: true   // ← सिर्फ ये एक लाइन ऐड करने से PayPal तुरंत दिखने लगता है
         }
     };
-    new Razorpay(options).open();
-    }
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+}
 
     function payWithINR(id) {
         const course = courses.find(c => c.id === id);
