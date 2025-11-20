@@ -180,25 +180,30 @@
     function payWithPayPal(id) {
         const course = courses.find(c => c.id === id);
         const options = {
-            key: "rzp_live_RgqybfaGJlen9I",
+            key: "rzp_live_RgqybfaGJlen9I", // Live Key डालो
             amount: course.priceUSD * 100,
             currency: "USD",
             name: "EduLearn Pro",
             description: course.name,
             handler: function (response) {
-                alert("Payment Successful! Payment ID: " + response.razorpay_payment_id + "\nCourse access will be sent shortly.");
-            },
-            prefill: { name: prompt("Your Full Name"), email: prompt("Your Email") },
-            theme: { color: "#0070ba" },
-            config: {
-                display: {
-                    blocks: { paypal: { name: "Pay with PayPal", instruments: ["paypal"] } },
-                    sequence: ["block.paypal"],
-                    preferences: { show_default_blocks: false }
-                }
+                alert("Payment Successful! ID: " + response.razorpay_payment_id);
+        },
+        prefill: { name: prompt("Name"), email: prompt("Email") },
+        theme: { "color": "#0070ba" },
+        config: {
+            display: {
+                blocks: { 
+                    paypal: { 
+                        name: "Pay with PayPal", 
+                        instruments: ["paypal"] 
+                    }
+                },
+                sequence: ["block.paypal"],
+                preferences: { show_default_blocks: false }
             }
-        };
-        new Razorpay(options).open();
+        }
+    };
+    new Razorpay(options).open();
     }
 
     function payWithINR(id) {
