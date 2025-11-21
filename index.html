@@ -7,6 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <!-- Added for downloadable voucher -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
         .navbar { background: #1e40af; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -16,9 +18,27 @@
         .course-img { height: 220px; object-fit: cover; }
         .paypal-btn { background: #0070ba; color: white; font-weight: bold; padding: 14px; border: none; }
         .paypal-btn:hover { background: #003087; }
+        .inr-btn { background: #28a745; color: white; font-weight: bold; }
+        .inr-btn:hover { background: #1e7b34; }
         .sebi-badge { border: 8px solid #065f46; border-radius: 14px; margin: 15px 0; max-width: 100%; }
         .policy-card { background: white; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); padding: 2.5rem; }
         footer { background: #1e293b; color: #e2e8f0; padding: 60px 0 30px; }
+
+        /* New Gift Voucher Card Styling */
+        .credit-card {
+            width: 380px; height: 240px; margin: 30px auto; perspective: 1000px;
+            border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); position: relative;
+        }
+        .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; }
+        .credit-card:hover .card-inner { transform: rotateY(180deg); }
+        .card-front, .card-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            border-radius: 16px; padding: 20px; top: 0; left: 0;
+        }
+        .card-front { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; }
+        .card-back { background: #f1f5f9; color: #1e293b; transform: rotateY(180deg); }
+        .card-number { font-size: 1.4rem; letter-spacing: 3px; }
+        .card-holder { font-size: 1.3rem; margin-top: 30px; }
     </style>
 </head>
 <body>
@@ -33,7 +53,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
-                <li class="nav-item"><a class="nav-link" href="#gift">Gift Voucher</a></li>
+                <li class="nav-item"><a class="nav-link" href="#gift-voucher">Gift Voucher</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Policies</a>
                     <ul class="dropdown-menu">
@@ -66,23 +86,63 @@
     </div>
 </section>
 
-<!-- Gift Voucher -->
-<section id="gift" class="py-5">
+<!-- ======== NEW ENHANCED GIFT VOUCHER SECTION ======== -->
+<section id="gift-voucher" class="py-5 bg-light">
     <div class="container">
-        <h2 class="text-center display-5 mb-5">Gift a Course – Gift Knowledge!</h2>
+        <h2 class="text-center mb-5 display-5">Gift a Course – Gift Knowledge!</h2>
         <div class="row justify-content-center">
             <div class="col-lg-6">
                 <div class="card shadow-lg p-4">
                     <div class="mb-3">
                         <label class="form-label fw-bold">Recipient Name</label>
-                        <input type="text" id="giftName" class="form-control form-control-lg" required>
+                        <input type="text" id="voucher-name" class="form-control form-control-lg" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Amount (USD)</label>
-                        <input type="number" id="giftAmount" class="form-control form-control-lg" min="10" value="25" required>
+                        <label class="form-label fw-bold">Amount</label>
+                        <div class="input-group">
+                            <input type="number" id="voucher-amount" class="form-control form-control-lg" min="499" placeholder="499" required>
+                            <select id="voucher-currency" class="form-select form-select-lg">
+                                <option value="INR">₹ INR (India)</option>
+                                <option value="USD">$ USD (International)</option>
+                            </select>
+                        </div>
                     </div>
-                    <button onclick="buyGift()" class="btn paypal-btn btn-lg w-100">
-                        Buy Gift Voucher with PayPal (No OTP)
+                    <div class="mb-4">
+                        <label class="form-label">Your Message (Optional)</label>
+                        <textarea id="voucher-message" class="form-control" rows="2" placeholder="Wishing you success in your learning journey!"></textarea>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn inr-btn btn-lg" onclick="payGiftINR()">
+                            <i class="fas fa-rupee-sign me-2"></i> Pay with UPI / Card (INR)
+                        </button>
+                        <button type="button" class="btn paypal-btn btn-lg" onclick="payGiftPayPal()">
+                            <i class="fab fa-paypal me-2"></i> Pay with PayPal (USD – No OTP)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Voucher Preview -->
+                <div id="voucher-result" class="d-none mt-5 text-center">
+                    <h3 class="text-success mb-4">Gift Voucher Ready!</h3>
+                    <div id="voucher-card" class="credit-card">
+                        <div class="card-inner">
+                            <div class="card-front">
+                                <div class="mt-4">
+                                    <div class="card-number" id="card-number">GIFT 0000 0000 0000</div>
+                                    <div class="card-holder mt-4" id="card-holder">RECIPIENT</div>
+                                </div>
+                            </div>
+                            <div class="card-back text-start">
+                                <div class="bg-dark text-white p-3 rounded d-inline-block">
+                                    Amount: <span id="gift-currency-symbol">₹</span><span id="gift-amount">999</span>
+                                </div>
+                                <div class="mt-3 small fst-italic" id="gift-message">Happy Learning!</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="download-voucher" class="btn btn-primary btn-lg mt-3">
+                        <i class="fas fa-download me-2"></i> Download Voucher as PNG
                     </button>
                 </div>
             </div>
@@ -143,6 +203,8 @@
 </footer>
 
 <script>
+    const RAZORPAY_KEY = "rzp_live_RgqybfaGJlen9I";   // ← अपनी Live Key यहाँ रखो
+
     const courses = [
         { id:1, name:"Complete Web Development Bootcamp 2026", priceINR:799, priceUSD:19, img:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600" },
         { id:2, name:"Digital Marketing Masterclass (Hindi)", priceINR:699, priceUSD:15, img:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600" },
@@ -158,11 +220,11 @@
             grid.innerHTML += `
                 <div class="col">
                     <div class="card course-card h-100">
-                        <img src="${c.img}" class="card-img-top course-img" alt="${c.name}">
+                        <img src="${c.img}" class="card-img-top course-img"	alt="${c.name}">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">${c.name}</h5>
                             ${c.sebi ? `<p class="text-success fw-bold text-center mt-3">SEBI Registered Educator</p>
-                            <img src="https://edulearn-pro.vercel.app/certificate.jpg" class="sebi-badge img-fluid" alt="SEBI Investor Awareness Certificate">` : ''}
+                            <img src="https://edulearn-pro.vercel.app/certificate.jpg" class="sebi-badge img-fluid" alt="SEBI Certificate">` : ''}
                             <div class="mt-auto text-center">
                                 <p class="fs-4 fw-bold text-success mb-1">₹${c.priceINR} INR</p>
                                 <p class="text-primary mb-3">or $${c.priceUSD} USD (International)</p>
@@ -177,43 +239,29 @@
         });
     }
 
+    // Course Payments
     function payWithPayPal(id) {
         const course = courses.find(c => c.id === id);
-    
         const options = {
-            key: "rzp_live_RgqybfaGJlen9I",  // अपनी Live Key यहाँ डालो
+            key: RAZORPAY_KEY,
             amount: course.priceUSD * 100,
             currency: "USD",
             name: "EduLearn Pro",
             description: course.name,
             handler: function (response) {
-                alert("Payment Done! ID: " + response.razorpay_payment_id);
+                alert("Payment Successful! ID: " + response.razorpay_payment_id);
             },
-            prefill: {
-                name: prompt("Your Name"),
-                email: prompt("Your Email")
-            },
+            prefill: { name: prompt("Your Name"), email: prompt("Your Email") },
             theme: { color: "#0070ba" },
-
-        // ये नई लाइन सिर्फ ऐड करो – बाकी सब पुराना ही रहेगा
-        modal: {
-            ondismiss: function() {
-                console.log("Checkout closed");
-            }
-        },
-        payment_methods: {
-            paypal: true   // ← सिर्फ ये एक लाइन ऐड करने से PayPal तुरंत दिखने लगता है
-        }
-    };
-
-    const rzp = new Razorpay(options);
-    rzp.open();
-}
+            config: { display: { blocks: { paypal: { name: "PayPal", instruments: ["paypal"] }}, sequence: ["block.paypal"], preferences: { show_default_blocks: false }}}
+        };
+        new Razorpay(options).open();
+    }
 
     function payWithINR(id) {
         const course = courses.find(c => c.id === id);
         const options = {
-            key: "rzp_live_RgqybfaGJlen9I",
+            key: RAZORPAY_KEY,
             amount: course.priceINR * 100,
             currency: "INR",
             name: "EduLearn Pro",
@@ -227,23 +275,74 @@
         new Razorpay(options).open();
     }
 
-    function buyGift() {
-        const name = document.getElementById("giftName").value.trim();
-        const amount = document.getElementById("giftAmount").value;
-        if (!name || amount < 10) return alert("Recipient name & minimum $10 required");
+    // ======== GIFT VOUCHER PAYMENTS ========
+    function payGiftINR() {
+        const name = document.getElementById('voucher-name').value.trim();
+        const amount = document.getElementById('voucher-amount').value;
+        if (!name || !amount || amount < 499) return alert("Recipient name & minimum ₹499 required");
+
         const options = {
-            key: "rzp_live_RgqybfaGJlen9I",
+            key: RAZORPAY_KEY,
             amount: amount * 100,
-            currency: "USD",
+            currency: "INR",
             name: "EduLearn Pro Gift Voucher",
-            description: "Gift for " + name,
-            handler: () => alert("Gift Voucher Purchased Successfully!\nAmount: $" + amount + "\nRecipient: " + name),
+            description: `Gift for ${name}`,
+            handler: function (response) {
+                generateVoucher(response.razorpay_payment_id, amount, "₹", name);
+            },
             prefill: { name: name },
-            theme: { color: "#0070ba" },
-            config: { display: { blocks: { paypal: { name: "PayPal", instruments: ["paypal"] }}, sequence: ["block.paypal"], preferences: { show_default_blocks: false }}}
+            theme: { color: "#28a745" }
         };
         new Razorpay(options).open();
     }
+
+    function payGiftPayPal() {
+        const name = document.getElementById('voucher-name').value.trim();
+        const amount = document.getElementById('voucher-amount').value;
+        if (!name || !amount || amount < 10) return alert("Recipient name & minimum $10 required");
+
+        const options = {
+            key: RAZORPAY_KEY,
+            amount: amount * 100,
+            currency: "USD",
+            name: "EduLearn Pro Gift Voucher",
+            description: `Gift for ${name}`,
+            handler: function (response) {
+                generateVoucher(response.razorpay_payment_id, amount, "$", name);
+            },
+            prefill: { name: name },
+            theme: { color: "#0070ba" },
+            config: {
+                display: {
+                    blocks: { paypal: { name: "Pay with PayPal", instruments: ["paypal"] }},
+                    sequence: ["block.paypal"],
+                    preferences: { show_default_blocks: false }
+                }
+            }
+        };
+        new Razorpay(options).open();
+    }
+
+    // Generate & Show Voucher
+    function generateVoucher(paymentId, amount, symbol, name) {
+        document.getElementById('card-number').textContent = 'GIFT ' + paymentId.slice(-12).match(/.{4}/g).join(' ');
+        document.getElementById('card-holder').textContent = name.toUpperCase();
+        document.getElementById('gift-amount').textContent = amount;
+        document.getElementById('gift-currency-symbol').textContent = symbol;
+        document.getElementById('gift-message').textContent = document.getElementById('voucher-message').value || "Happy Learning!";
+        document.getElementById('voucher-result').classList.remove('d-none');
+        document.getElementById('voucher-result').scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Download Voucher as PNG
+    document.getElementById('download-voucher').addEventListener('click', () => {
+        html2canvas(document.getElementById('voucher-card'), { scale: 2 }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'EduLearn-Pro-Gift-Voucher.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    });
 
     window.onload = loadCourses;
 </script>
