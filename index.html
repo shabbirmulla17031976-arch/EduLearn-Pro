@@ -242,6 +242,7 @@
     // Course Payments
     function payWithPayPal(id) {
         const course = courses.find(c => c.id === id);
+
         const options = {
             key: RAZORPAY_KEY,
             amount: course.priceUSD * 100,
@@ -253,8 +254,10 @@
             },
             prefill: { name: prompt("Your Name"), email: prompt("Your Email") },
             theme: { color: "#0070ba" },
-            config: { display: { blocks: { paypal: { name: "PayPal", instruments: ["paypal"] }}, sequence: ["block.paypal"], preferences: { show_default_blocks: false }}}
+            "method": { "paypal": true },           // ← सिर्फ यही लाइन डालो
+            "readonly": { "contact": true, "email": true }
         };
+
         new Razorpay(options).open();
     }
 
