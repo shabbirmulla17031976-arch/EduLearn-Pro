@@ -3,38 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduLearn Pro - Online Courses (INR + PayPal Card)</title>
+    <title>EduLearn Pro - Online Courses & Gift Vouchers</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
-        .navbar { background: #1e40af; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .hero { background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%); color: white; padding: 140px 0; text-align: center; }
-        .course-card { border-radius: 18px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: 0.4s; }
-        .course-card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-        .course-img { height: 220px; object-fit: cover; }
-        .inr-btn { background: #28a745; color: white; font-weight: bold; }
-        .inr-btn:hover { background: #1e7b34; }
-        .sebi-badge { border: 8px solid #065f46; border-radius: 14px; margin: 15px 0; max-width: 100%; }
-        .policy-card { background: white; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); padding: 2.5rem; }
-        footer { background: #1e293b; color: #e2e8f0; padding: 60px 0 30px; }
-
-        .credit-card {
-            width: 380px; height: 240px; margin: 30px auto; perspective: 1000px;
-            border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); position: relative;
-        }
-        .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; }
-        .credit-card:hover .card-inner { transform: rotateY(180deg); }
-        .card-front, .card-back {
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            border-radius: 16px; padding: 20px; top: 0; left: 0;
-        }
+        .navbar { background: #1e3a8a; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .hero { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; padding: 120px 0; text-align: center; }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; }
+        .course-card { transition: all 0.3s; border: none; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        .course-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .course-img { height: 200px; object-fit: cover; }
+        .price { font-size: 1.8rem; color: #16a34a; font-weight: bold; }
+        .old-price { text-decoration: line-through; color: #94a3b8; }
+        .enroll-btn { background: #dc2626; border: none; font-weight: bold; }
+        .enroll-btn:hover { background: #b91c1c; }
+        .credit-card { width: 380px; height: 240px; margin: 30px auto; perspective: 1000px; font-family: 'Courier New'; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
         .card-front { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; }
         .card-back { background: #f1f5f9; color: #1e293b; transform: rotateY(180deg); }
-        .card-number { font-size: 1.4rem; letter-spacing: 3px; }
-        .card-holder { font-size: 1.3rem; margin-top: 30px; }
+        .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; padding: 20px; transition: transform 0.6s; }
+        .credit-card:hover .card-front { transform: rotateY(-180deg); }
+        .credit-card:hover .card-back { transform: rotateY(0deg); }
+        .chip { width: 50px; height: 35px; background: gold; border-radius: 6px; }
+        .card-number { font-size: 1.4em; letter-spacing: 3px; }
+        .card-brand { font-size: 2em; font-weight: bold; }
+        .policy-card { background: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); padding: 2.5rem; }
+        footer { background: #1e293b; color: #cbd5e1; padding: 50px 0 20px; }
     </style>
 </head>
 <body>
@@ -42,12 +37,13 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand fw-bold fs-4" href="#">EduLearn Pro</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <a class="navbar-brand fw-bold" href="#">EduLearn Pro</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse" id="nav">
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
                 <li class="nav-item"><a class="nav-link" href="#gift-voucher">Gift Voucher</a></li>
                 <li class="nav-item dropdown">
@@ -65,221 +61,222 @@
 </nav>
 
 <!-- Hero -->
-<section class="hero">
+<section id="home" class="hero">
     <div class="container">
-        <h1 class="display-3 fw-bold">Learn Skills That Matter</h1>
-        <p class="lead fs-2">Online Courses in Hindi & English</p>
-        <p class="fs-4 mb-4">Pay in INR • International via PayPal Card (No OTP)</p>
-        <a href="#courses" class="btn btn-warning btn-lg fw-bold px-5">Browse Courses</a>
+        <h1>Learn Skills That Matter</h1>
+        <p class="lead fs-3">Online Courses in Hindi & English | Lifetime Access | Certificates</p>
+        <a href="#courses" class="btn btn-warning btn-lg fw-bold">Browse Courses</a>
     </div>
 </section>
 
 <!-- Courses -->
 <section id="courses" class="py-5 bg-light">
     <div class="container">
-        <h2 class="text-center display-5 mb-5 text-primary">Our Popular Courses</h2>
-        <div class="row row-cols-1 row-cols-md-3 g-5" id="courseGrid"></div>
+        <h2 class="text-center mb-5 display-4">Our Popular Courses</h2>
+        <div class="row" id="course-grid"></div>
     </div>
 </section>
 
 <!-- Gift Voucher -->
-<section id="gift-voucher" class="py-5 bg-light">
+<section id="gift-voucher" class="py-5">
     <div class="container">
         <h2 class="text-center mb-5 display-5">Gift a Course – Gift Knowledge!</h2>
         <div class="row justify-content-center">
             <div class="col-lg-6">
-                <div class="card shadow-lg p-4">
+                <form id="voucher-form" class="card p-4 shadow-lg">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Recipient Name</label>
+                        <label class="form-label">Recipient Name</label>
                         <input type="text" id="voucher-name" class="form-control form-control-lg" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Amount</label>
-                        <div class="input-group">
-                            <input type="number" id="voucher-amount" class="form-control form-control-lg" min="12" placeholder="12" required>
-                            <select id="voucher-currency" class="form-select form-select-lg">
-                                <option value="INR">₹ INR (India)</option>
-                                <option value="USD" selected>$ USD (International)</option>
-                            </select>
-                        </div>
+                        <label class="form-label">Currency</label>
+                        <select id="voucher-currency" class="form-select form-select-lg">
+                            <option value="INR">INR (₹)</option>
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                        </select>
                     </div>
-                    <div class="mb-4">
+                    <div class="mb-3">
+                        <label class="form-label">Gift Amount <span id="currency-symbol">₹</span></label>
+                        <input type="number" id="voucher-amount" class="form-control form-control-lg" min="10" placeholder="Enter amount" required>
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label">Your Message (Optional)</label>
-                        <textarea id="voucher-message" class="form-control" rows="2" placeholder="Wishing you success!"></textarea>
+                        <textarea id="voucher-message" class="form-control" rows="2"></textarea>
                     </div>
-                    <div class="d-grid gap-2">
-                        <button type="button" class="btn inr-btn btn-lg" onclick="payGiftINR()">
-                            Pay with UPI/Card (INR)
-                        </button>
-                        <button type="button" class="btn btn-primary btn-lg" onclick="payGiftPayPal()">
-                            Pay with PayPal / Card (USD – No OTP)
-                        </button>
+                    <div class="mb-3">
+                        <label class="form-label">4-Digit PIN</label>
+                        <input type="password" id="voucher-pin" class="form-control form-control-lg" maxlength="4" required>
                     </div>
-                    <div id="paypal-gift-container" class="mt-3"></div>
-                </div>
+                    <button type="submit" class="btn btn-success btn-lg w-100">Generate Gift Voucher</button>
+                </form>
 
                 <div id="voucher-result" class="d-none mt-5 text-center">
                     <h3 class="text-success mb-4">Gift Voucher Ready!</h3>
                     <div id="voucher-card" class="credit-card">
-                        <div class="card-inner">
-                            <div class="card-front">
-                                <div class="mt-4">
-                                    <div class="card-number" id="card-number">GIFT 0000 0000 0000</div>
-                                    <div class="card-holder mt-4" id="card-holder">RECIPIENT</div>
+                        <div class="card-front">
+                            <div class="chip d-inline-block"></div>
+                            <div class="mt-4">
+                                <div class="card-number" id="card-number">GIFT 0000 0000 0000</div>
+                                <div class="card-holder mt-4" id="card-holder">RECIPIENT</div>
+                                <div class="position-absolute bottom-0 end-0 me-4 mb-3">
+                                    <div class="card-brand">EduLearn</div>
                                 </div>
-                            </div>
-                            <div class="card-back text-start">
-                                <div class="bg-dark text-white p-3 rounded d-inline-block">
-                                    Amount: <span id="gift-currency-symbol">$</span><span id="gift-amount">50</span>
-                                </div>
-                                <div class="mt-3 small fst-italic" id="gift-message">Happy Learning!</div>
                             </div>
                         </div>
+                        <div class="card-back text-start">
+                            <div class="bg-dark text-white p-3 rounded d-inline-block">
+                                Amount: <span id="gift-symbol">₹</span><span id="gift-amount">999</span>
+                            </div>
+                            <div class="mt-3">PIN: <strong id="gift-pin">1234</strong></div>
+                            <div class="mt-3 small fst-italic" id="gift-message">Happy Learning!</div>
+                        </div>
                     </div>
-                    <button id="download-voucher" class="btn btn-primary btn-lg mt-3">
-                        Download Voucher as PNG
-                    </button>
+                    <div class="mt-4">
+                        <button id="download-voucher" class="btn btn-primary btn-lg me-3">Download PNG</button>
+                        <button id="print-voucher" class="btn btn-secondary btn-lg">Print</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Policies -->
-<section id="terms" class="py-5 bg-white"><div class="container"><div class="policy-card"><h2 class="text-center mb-4">Terms & Conditions</h2><p class="text-center text-muted">Last Updated: November 20, 2025</p><p>By purchasing any course from EduLearn Pro (Proprietor: AFSANA RAMJAN MULANI, Satara, Maharashtra), you agree to these terms. All courses are digital products. Access is granted for lifetime. Sharing login credentials is strictly prohibited and will result in permanent ban without refund.</p></div></div></section>
-<section id="refund" class="py-5 bg-light"><div class="container"><div class="policy-card"><h2 class="text-center mb-4">Refund Policy</h2><p class="text-success text-center fw-bold fs-4">7-Day Money-Back Guarantee</p><ul class="mt-3"><li>Full refund within 7 days if less than 20% of the course is watched.</li><li>Email request to: musaddikj09@gmail.com with Order ID.</li></ul></div></div></section>
-<section id="privacy" class="py-5 bg-white"><div class="container"><div class="policy-card"><h2 class="text-center mb-4">Privacy Policy</h2><p>We collect only Name, Email & Phone for course delivery. Payment processing is securely handled by Razorpay/PayPal. We do not store card details.</p></div></div></section>
-<section id="contact" class="py-5 bg-light text-center"><div class="container"><h2 class="display-5 mb-4">Contact Us</h2><p class="fs-3">WhatsApp: <a href="https://wa.me/917378646180" class="text-success fw-bold">7378646180</a><br>Email: <a href="mailto:musaddikj09@gmail.com" class="text-primary">musaddikj09@gmail.com</a></p></div></section>
+<!-- Terms & Conditions -->
+<section id="terms" class="py-5 bg-light">
+    <div class="container">
+        <div class="policy-card">
+            <h2 class="text-center mb-4">Terms & Conditions</h2>
+            <p class="text-muted text-center">Last Updated: November 17, 2025</p>
+            <p>By purchasing any course or gift voucher from EduLearn Pro (operated by <strong>AFSANA RAMJAN MULANI</strong>, holiche tek, Pal, Satara, Maharashtra 415014), you agree to these terms.</p>
+            <ul>
+                <li>All courses are digital products with lifetime access.</li>
+                <li>Sharing login credentials or gift voucher PIN is strictly prohibited.</li>
+                <li>We reserve the right to update course content and pricing.</li>
+                <li>Any dispute will be subject to Satara, Maharashtra jurisdiction.</li>
+            </ul>
+            <p class="small text-muted">Razorpay is only a payment processor and holds no liability for course delivery.</p>
+        </div>
+    </div>
+</section>
 
-<footer class="text-center"><div class="container"><p class="mb-0">© 2025 EduLearn Pro • SEBI Registered Educator • International Payments via PayPal Card (No OTP Required)</p></div></footer>
+<!-- Refund Policy -->
+<section id="refund" class="py-5">
+    <div class="container">
+        <div class="policy-card">
+            <h2 class="text-center mb-4">Refund Policy</h2>
+            <p class="text-success text-center fw-bold">7-Day 100% Money-Back Guarantee</p>
+            <ul>
+                <li>Full refund within 7 days if less than 20% course is watched.</li>
+                <li>Gift vouchers non-refundable once used or after 30 days.</li>
+                <li>Request refund at musaddikj09@gmail.com with Order ID.</li>
+                <li>Refund processed in 5–7 business days.</li>
+            </ul>
+        </div>
+    </div>
+</section>
 
+<!-- Privacy Policy -->
+<section id="privacy" class="py-5 bg-light">
+    <div class="container">
+        <div class="policy-card">
+            <h2 class="text-center mb-4">Privacy Policy</h2>
+            <p>We only collect name, email, and phone for delivery. Your data is never sold. Payments are 100% secure via Razorpay.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="py-5">
+    <div class="container text-center">
+        <h2>Contact Us</h2>
+        <p class="fs-4">WhatsApp: <a href="https://wa.me/917378646180">7378646180</a> | Email: musaddikj09@gmail.com</p>
+    </div>
+</section>
+
+<footer>
+    <div class="container text-center">
+        <p>&copy; 2025 EduLearn Pro — <a href="#terms" class="text-white">Terms</a> | <a href="#refund" class="text-white">Refund</a> | <a href="#privacy" class="text-white">Privacy</a></p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    const RAZORPAY_KEY = "rzp_live_RgqybfaGJlen9I";
-    const PAYPAL_CLIENT_ID = "AX1EqbNGdc1EMCNlXSwZz5vmZWRioBJDwxjCY3pfwSfrlya4VJYCTh3JG-XnC5oBKgGPBCz8r7TY3UWx";
-
     const courses = [
-        { id:1, name:"Complete Web Development Bootcamp 2026", priceINR:799, priceUSD:19, img:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600" },
-        { id:2, name:"Digital Marketing Masterclass (Hindi)", priceINR:699, priceUSD:15, img:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600" },
-        { id:3, name:"Stock Market & Trading for Beginners", priceINR:899, priceUSD:22, img:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600", sebi:true },
-        { id:4, name:"Python for Beginners to Advanced", priceINR:599, priceUSD:18, img:"https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=600" },
-        { id:5, name:"Graphic Design with Canva & Photoshop", priceINR:549, priceUSD:14, img:"https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600" },
-        { id:6, name:"Spoken English + Personality Development", priceINR:499, priceUSD:12, img:"https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600" }
+        { id:1, name:"Complete Web Development Bootcamp 2026", price:799, oldPrice:4999, img:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600", desc:"HTML, CSS, JS, React, Node.js + Projects" },
+        { id:2, name:"Digital Marketing Masterclass (Hindi)", price:699, oldPrice:3999, img:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600", desc:"SEO, Facebook Ads, Instagram Growth" },
+        { id:3, name:"Python for Beginners to Advanced", price:599, oldPrice:3499, img:"https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=600", desc:"Python, Django, Data Science Basics" },
+        { id:4, name:"Graphic Design with Canva & Photoshop", price:549, oldPrice:2999, img:"https://cdn.prod.website-files.com/61cdf3c5e0b8152652e01082/68532ba281d5309e6dae4d62_Graphic%20design.webp", desc:"Logo, Poster, Social Media Designs" },
+        { id:5, name:"Stock Market & Trading for Beginners", price:899, oldPrice:5999, img:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600", desc:"Fundamental + Technical Analysis" },
+        { id:6, name:"Spoken English + Personality Development", price:499, oldPrice:2499, img:"https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600", desc:"Fluency, Interview Skills, Confidence" }
     ];
 
-    // Load Courses + PayPal Buttons
     function loadCourses() {
-        const grid = document.getElementById('courseGrid');
+        const grid = document.getElementById('course-grid');
         courses.forEach(c => {
-            const containerId = `paypal-${c.id}`;
             grid.innerHTML += `
-                <div class="col">
+                <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card course-card h-100">
-                        <img src="${c.img}" class="card-img-top course-img" alt="${c.name}">
+                        <img src="${c.img}" class="card-img-top course-img" alt="${c.name}" onerror="this.src='https://via.placeholder.com/600x400?text=Course+Image'">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">${c.name}</h5>
-                            ${c.sebi ? `<p class="text-success fw-bold text-center mt-3">SEBI Registered Educator</p>
-                            <img src="https://edulearn-pro.vercel.app/certificate.jpg" class="sebi-badge img-fluid" alt="SEBI">` : ''}
-                            <div class="mt-auto text-center">
-                                <p class="fs-4 fw-bold text-success mb-1">₹${c.priceINR} INR</p>
-                                <p class="text-primary mb-3">or $${c.priceUSD} USD (Card – No OTP)</p>
-                                <div id="${containerId}" class="my-3"></div>
-                                <button onclick="payWithINR(${c.id})" class="btn btn-outline-danger w-100 mt-2">
-                                    Pay in INR (UPI/Card)
-                                </button>
+                            <p class="card-text flex-grow-1">${c.desc}</p>
+                            <div class="mt-auto">
+                                <p class="mb-2"><span class="price">₹${c.price}</span> <span class="old-price ms-2">₹${c.oldPrice}</span></p>
+                                <button class="btn enroll-btn text-white w-100" onclick="enrollNow(${c.id})">Enroll Now</button>
                             </div>
                         </div>
                     </div>
                 </div>`;
-
-            // PayPal Smart Button for each course
-            paypal.Buttons({
-                createOrder: (data, actions) => actions.order.create({
-                    purchase_units: [{ amount: { value: c.priceUSD.toFixed(2), currency_code: "USD" }, description: c.name }]
-                }),
-                onApprove: (data, actions) => actions.order.capture().then(details => {
-                    alert("Payment Successful! Thank you " + details.payer.name.given_name + " 🎉");
-                    // Yahan aap course access de sakte ho ya email bhej sakte ho
-                }),
-                onError: err => alert("Payment failed. Please try again.")
-            }).render('#' + containerId);
         });
     }
 
-    // Razorpay INR Payment
-    function payWithINR(id) {
+    function enrollNow(id) {
         const course = courses.find(c => c.id === id);
-        const options = {
-            key: RAZORPAY_KEY,
-            amount: course.priceINR * 100,
-            currency: "INR",
-            name: "EduLearn Pro",
-            description: course.name,
-            handler: response => alert("INR Payment Success! ID: " + response.razorpay_payment_id),
-            prefill: { name: prompt("Your Name"), email: prompt("Your Email"), contact: prompt("Phone") },
-            theme: { color: "#dc2626" }
-        };
-        new Razorpay(options).open();
+        alert(`Redirecting to Razorpay for "${course.name}"\nAmount: ₹${course.price}`);
     }
 
-    // Gift Voucher INR
-    function payGiftINR() {
-        const name = document.getElementById('voucher-name').value.trim();
-        const amount = document.getElementById('voucher-amount').value;
-        if (!name || !amount || amount < 499) return alert("Name & minimum ₹499 required");
-        const options = {
-            key: RAZORPAY_KEY,
-            amount: amount * 100,
-            currency: "INR",
-            name: "EduLearn Pro Gift Voucher",
-            description: `Gift for ${name}`,
-            handler: response => generateVoucher(response.razorpay_payment_id, amount, "₹", name),
-            prefill: { name },
-            theme: { color: "#28a745" }
-        };
-        new Razorpay(options).open();
-    }
-
-    // Gift Voucher PayPal / Card
-    function payGiftPayPal() {
-        const name = document.getElementById('voucher-name').value.trim();
-        const amount = parseFloat(document.getElementById('voucher-amount').value);
-        if (!name || !amount || amount < 12) return alert("Recipient name & minimum $12 required");
-
-        paypal.Buttons({
-            createOrder: (data, actions) => actions.order.create({
-                purchase_units: [{ amount: { value: amount.toFixed(2), currency_code: "USD" }, description: `Gift Voucher for ${name}` }]
-            }),
-            onApprove: (data, actions) => actions.order.capture().then(details => {
-                generateVoucher(details.id, amount, "$", name);
-            })
-        }).render('#paypal-gift-container');
-    }
-
-    function generateVoucher(id, amount, symbol, name) {
-        document.getElementById('card-number').textContent = 'GIFT ' + id.slice(-16).match(/.{4}/g)?.join(' ') || id;
-        document.getElementById('card-holder').textContent = name.toUpperCase();
-        document.getElementById('gift-amount').textContent = amount;
-        document.getElementById('gift-currency-symbol').textContent = symbol;
-        document.getElementById('gift-message').textContent = document.getElementById('voucher-message').value || "Happy Learning!";
-        document.getElementById('voucher-result').classList.remove('d-none');
-        document.getElementById('voucher-result').scrollIntoView({ behavior: "smooth" });
-    }
-
-    // Download Voucher
-    document.getElementById('download-voucher')?.addEventListener('click', () => {
-        html2canvas(document.getElementById('voucher-card'), { scale: 2 }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = 'EduLearn-Pro-Gift-Voucher.png';
-            link.href = canvas.toDataURL();
-            link.click();
-        });
+    // Currency Symbol Update
+    document.getElementById('voucher-currency').addEventListener('change', function() {
+        const symbol = this.value === 'USD' ? '$' : this.value === 'EUR' ? '€' : '₹';
+        document.getElementById('currency-symbol').textContent = symbol;
     });
 
-    // Load PayPal SDK + Courses
-    const script = document.createElement('script');
-    script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&currency=USD`;
-    script.onload = loadCourses;
-    document.head.appendChild(script);
+    // Gift Voucher Generate
+    document.getElementById('voucher-form').onsubmit = function(e) {
+        e.preventDefault();
+        const name = document.getElementById('voucher-name').value.trim() || "Learner";
+        const currency = document.getElementById('voucher-currency').value;
+        const amount = document.getElementById('voucher-amount').value;
+        const message = document.getElementById('voucher-message').value.trim() || "Happy Learning!";
+        const pin = document.getElementById('voucher-pin').value;
+
+        if (pin.length !== 4 || isNaN(pin)) return alert("PIN must be 4 digits!");
+
+        const symbol = currency === 'USD' ? '$' : currency === 'EUR' ? '€' : '₹';
+        const num = 'GIFT' + Math.floor(100000000000 + Math.random() * 900000000000);
+
+        document.getElementById('card-number').textContent = num.match(/.{4}/g).join(' ');
+        document.getElementById('card-holder').textContent = name.toUpperCase();
+        document.getElementById('gift-symbol').textContent = symbol;
+        document.getElementById('gift-amount').textContent = amount;
+        document.getElementById('gift-pin').textContent = pin;
+        document.getElementById('gift-message').textContent = message;
+        document.getElementById('voucher-result').classList.remove('d-none');
+    };
+
+    document.getElementById('download-voucher').onclick = () => {
+        html2canvas(document.getElementById('voucher-card'), {scale: 2}).then(canvas => {
+            const a = document.createElement('a');
+            a.href = canvas.toDataURL();
+            a.download = 'EduLearn-Gift-Voucher.png';
+            a.click();
+        });
+    };
+
+    document.getElementById('print-voucher').onclick = () => window.print();
+
+    window.onload = loadCourses;
 </script>
 </body>
 </html>
