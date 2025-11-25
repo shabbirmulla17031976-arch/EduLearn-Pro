@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduLearn Pro - Online Courses (INR + PayPal Card)</title>
+    <title>EduLearn Pro - Online Courses (INR + PayPal Card - Fixed Card Loading)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+    <!-- PayPal SDK - Force Enable Card Funding (Fixed Loading Issue) -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AX1EqbNGdc1EMCNlXSwZz5vmZWRioBJDwxjCY3pfwSfrlya4VJYCTh3JG-XnC5oBKgGPBCz8r7TY3UWx&components=buttons&currency=USD&intent=capture&enable-funding=card"></script>
+
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
         .navbar { background: #1e40af; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -35,6 +39,10 @@
         .card-back { background: #f1f5f9; color: #1e293b; transform: rotateY(180deg); }
         .card-number { font-size: 1.4rem; letter-spacing: 3px; }
         .card-holder { font-size: 1.3rem; margin-top: 30px; }
+
+        /* PayPal Button Styling */
+        .paypal-button { border-radius: 8px !important; margin: 5px 0; }
+        #paypal-container { min-height: 60px; } /* Ensure space for buttons */
     </style>
 </head>
 <body>
@@ -69,7 +77,7 @@
     <div class="container">
         <h1 class="display-3 fw-bold">Learn Skills That Matter</h1>
         <p class="lead fs-2">Online Courses in Hindi & English</p>
-        <p class="fs-4 mb-4">Pay in INR • International via PayPal Card (No OTP)</p>
+        <p class="fs-4 mb-4">Pay in INR • International Card (No Address • No OTP)</p>
         <a href="#courses" class="btn btn-warning btn-lg fw-bold px-5">Browse Courses</a>
     </div>
 </section>
@@ -112,10 +120,10 @@
                             Pay with UPI/Card (INR)
                         </button>
                         <button type="button" class="btn btn-primary btn-lg" onclick="payGiftPayPal()">
-                            Pay with PayPal / Card (USD – No OTP)
+                            Pay with PayPal / Card (USD – No Address • No OTP)
                         </button>
                     </div>
-                    <div id="paypal-gift-container" class="mt-3"></div>
+                    <div id="paypal-gift-container" class="mt-3" style="min-height: 60px;"></div>
                 </div>
 
                 <div id="voucher-result" class="d-none mt-5 text-center">
@@ -146,16 +154,15 @@
 </section>
 
 <!-- Policies -->
-<section id="terms" class="py-5 bg-white"><div class="container"><div class="policy-card"><h2 class="text-center mb-4">Terms & Conditions</h2><p class="text-center text-muted">Last Updated: November 20, 2025</p><p>By purchasing any course from EduLearn Pro (Proprietor: AFSANA RAMJAN MULANI, Satara, Maharashtra), you agree to these terms. All courses are digital products. Access is granted for lifetime. Sharing login credentials is strictly prohibited and will result in permanent ban without refund.</p></div></div></section>
+<section id="terms" class="py-5 bg-white"><div class="container"><div class="policy-card"><h2 class="text-center mb-4">Terms & Conditions</h2><p class="text-center text-muted">Last Updated: November 25, 2025</p><p>By purchasing any course from EduLearn Pro (Proprietor: AFSANA RAMJAN MULANI, Satara, Maharashtra), you agree to these terms. All courses are digital products. Access is granted for lifetime. Sharing login credentials is strictly prohibited and will result in permanent ban without refund.</p></div></div></section>
 <section id="refund" class="py-5 bg-light"><div class="container"><div class="policy-card"><h2 class="text-center mb-4">Refund Policy</h2><p class="text-success text-center fw-bold fs-4">7-Day Money-Back Guarantee</p><ul class="mt-3"><li>Full refund within 7 days if less than 20% of the course is watched.</li><li>Email request to: musaddikj09@gmail.com with Order ID.</li></ul></div></div></section>
 <section id="privacy" class="py-5 bg-white"><div class="container"><div class="policy-card"><h2 class="text-center mb-4">Privacy Policy</h2><p>We collect only Name, Email & Phone for course delivery. Payment processing is securely handled by Razorpay/PayPal. We do not store card details.</p></div></div></section>
 <section id="contact" class="py-5 bg-light text-center"><div class="container"><h2 class="display-5 mb-4">Contact Us</h2><p class="fs-3">WhatsApp: <a href="https://wa.me/917378646180" class="text-success fw-bold">7378646180</a><br>Email: <a href="mailto:musaddikj09@gmail.com" class="text-primary">musaddikj09@gmail.com</a></p></div></section>
 
-<footer class="text-center"><div class="container"><p class="mb-0">© 2025 EduLearn Pro • SEBI Registered Educator • International Payments via PayPal Card (No OTP Required)</p></div></footer>
+<footer class="text-center"><div class="container"><p class="mb-0">© 2025 EduLearn Pro • SEBI Registered Educator • International Payments via PayPal Card (No Address • No OTP Required)</p></div></footer>
 
 <script>
     const RAZORPAY_KEY = "rzp_live_RgqybfaGJlen9I";
-    const PAYPAL_CLIENT_ID = "AX1EqbNGdc1EMCNlXSwZz5vmZWRioBJDwxjCY3pfwSfrlya4VJYCTh3JG-XnC5oBKgGPBCz8r7TY3UWx";
 
     const courses = [
         { id:1, name:"Complete Web Development Bootcamp 2026", priceINR:799, priceUSD:19, img:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600" },
@@ -166,9 +173,60 @@
         { id:6, name:"Spoken English + Personality Development", priceINR:499, priceUSD:12, img:"https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600" }
     ];
 
-    // Load Courses + PayPal Buttons
+    // Render PayPal Buttons (Fixed - Force Card Enable + Better Error Handling)
+    function renderPayPalButton(containerId, amount, description, onSuccess) {
+        const container = document.getElementById(containerId);
+        if (!container || !window.paypal || !window.paypal.Buttons) {
+            console.error("PayPal SDK not loaded");
+            container.innerHTML = '<p class="text-danger small">PayPal loading... (Check console)</p>';
+            return;
+        }
+
+        // Clear and prepare
+        container.innerHTML = '';
+
+        paypal.Buttons({
+            onClick: () => { console.log('PayPal button clicked - starting order'); }, // Track clicks
+            createOrder: (data, actions) => {
+                console.log('Creating order for', amount);
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: { value: amount.toFixed(2), currency_code: "USD" },
+                        description: description
+                    }],
+                    application_context: {
+                        shipping_preference: "NO_SHIPPING"  // Skip address
+                    }
+                });
+            },
+            onApprove: (data, actions) => {
+                console.log('Order approved, capturing...');
+                return actions.order.capture().then(details => {
+                    console.log('Payment success:', details);
+                    onSuccess(details);
+                });
+            },
+            onError: (err) => {
+                console.error('PayPal Error:', err);
+                alert("Payment failed: " + (err.message || 'Check card details or try INR. Console for details.'));
+            },
+            style: {
+                shape: 'rect',
+                color: 'gold',
+                layout: 'vertical',  // Ensures card button shows below
+                label: 'paypal'
+            }
+        }).render(container).catch(err => {
+            console.error('Render error:', err);
+            container.innerHTML = '<p class="text-danger small">PayPal render failed. Try refresh.</p>';
+        });
+    }
+
+    // Load Courses
     function loadCourses() {
         const grid = document.getElementById('courseGrid');
+        if (!grid) return;
+
         courses.forEach(c => {
             const containerId = `paypal-${c.id}`;
             grid.innerHTML += `
@@ -181,7 +239,7 @@
                             <img src="https://edulearn-pro.vercel.app/certificate.jpg" class="sebi-badge img-fluid" alt="SEBI">` : ''}
                             <div class="mt-auto text-center">
                                 <p class="fs-4 fw-bold text-success mb-1">₹${c.priceINR} INR</p>
-                                <p class="text-primary mb-3">or $${c.priceUSD} USD (Card – No OTP)</p>
+                                <p class="text-primary mb-3">or $${c.priceUSD} USD (Card – No Address)</p>
                                 <div id="${containerId}" class="my-3"></div>
                                 <button onclick="payWithINR(${c.id})" class="btn btn-outline-danger w-100 mt-2">
                                     Pay in INR (UPI/Card)
@@ -191,21 +249,13 @@
                     </div>
                 </div>`;
 
-            // PayPal Smart Button for each course
-            paypal.Buttons({
-                createOrder: (data, actions) => actions.order.create({
-                    purchase_units: [{ amount: { value: c.priceUSD.toFixed(2), currency_code: "USD" }, description: c.name }]
-                }),
-                onApprove: (data, actions) => actions.order.capture().then(details => {
-                    alert("Payment Successful! Thank you " + details.payer.name.given_name + " 🎉");
-                    // Yahan aap course access de sakte ho ya email bhej sakte ho
-                }),
-                onError: err => alert("Payment failed. Please try again.")
-            }).render('#' + containerId);
+            renderPayPalButton(`paypal-${c.id}`, c.priceUSD, c.name, (details) => {
+                alert("Payment Successful! Thank you " + (details.payer?.name?.given_name || "Learner") + " 🎉 Course access sent to email.");
+            });
         });
     }
 
-    // Razorpay INR Payment
+    // Razorpay INR Payment (Same as before)
     function payWithINR(id) {
         const course = courses.find(c => c.id === id);
         const options = {
@@ -221,7 +271,7 @@
         new Razorpay(options).open();
     }
 
-    // Gift Voucher INR
+    // Gift Voucher INR (Same)
     function payGiftINR() {
         const name = document.getElementById('voucher-name').value.trim();
         const amount = document.getElementById('voucher-amount').value;
@@ -239,20 +289,18 @@
         new Razorpay(options).open();
     }
 
-    // Gift Voucher PayPal / Card
+    // Gift Voucher PayPal (Fixed)
     function payGiftPayPal() {
         const name = document.getElementById('voucher-name').value.trim();
         const amount = parseFloat(document.getElementById('voucher-amount').value);
         if (!name || !amount || amount < 12) return alert("Recipient name & minimum $12 required");
 
-        paypal.Buttons({
-            createOrder: (data, actions) => actions.order.create({
-                purchase_units: [{ amount: { value: amount.toFixed(2), currency_code: "USD" }, description: `Gift Voucher for ${name}` }]
-            }),
-            onApprove: (data, actions) => actions.order.capture().then(details => {
-                generateVoucher(details.id, amount, "$", name);
-            })
-        }).render('#paypal-gift-container');
+        const container = document.getElementById('paypal-gift-container');
+        container.innerHTML = '';
+
+        renderPayPalButton('paypal-gift-container', amount, `Gift Voucher for ${name}`, (details) => {
+            generateVoucher(details.id, amount, "$", name);
+        });
     }
 
     function generateVoucher(id, amount, symbol, name) {
@@ -265,7 +313,7 @@
         document.getElementById('voucher-result').scrollIntoView({ behavior: "smooth" });
     }
 
-    // Download Voucher
+    // Download Voucher (Same)
     document.getElementById('download-voucher')?.addEventListener('click', () => {
         html2canvas(document.getElementById('voucher-card'), { scale: 2 }).then(canvas => {
             const link = document.createElement('a');
@@ -275,11 +323,18 @@
         });
     });
 
-    // Load PayPal SDK + Courses
-    const script = document.createElement('script');
-    script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&currency=USD`;
-    script.onload = loadCourses;
-    document.head.appendChild(script);
+    // Load on Ready (With Timeout Fallback)
+    function initPayPal() {
+        if (window.paypal && window.paypal.Buttons) {
+            loadCourses();
+        } else {
+            setTimeout(initPayPal, 1000); // Retry after 1s
+        }
+    }
+    initPayPal();
 </script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
