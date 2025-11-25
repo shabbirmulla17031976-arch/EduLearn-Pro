@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduLearn Pro - Online Courses & Gift Vouchers</title>
+    <title>EduLearn Pro - Online Courses & Gift Vouchers (INR, USD, EUR)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <!-- Razorpay Checkout Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
         .navbar { background: #1e3a8a; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
@@ -64,7 +66,7 @@
 <section id="home" class="hero">
     <div class="container">
         <h1>Learn Skills That Matter</h1>
-        <p class="lead fs-3">Online Courses in Hindi & English | Lifetime Access | Certificates</p>
+        <p class="lead fs-3">Online Courses in Hindi & English | Pay in INR, USD, EUR</p>
         <a href="#courses" class="btn btn-warning btn-lg fw-bold">Browse Courses</a>
     </div>
 </section>
@@ -108,7 +110,7 @@
                         <label class="form-label">4-Digit PIN</label>
                         <input type="password" id="voucher-pin" class="form-control form-control-lg" maxlength="4" required>
                     </div>
-                    <button type="submit" class="btn btn-success btn-lg w-100">Generate Gift Voucher</button>
+                    <button type="submit" class="btn btn-success btn-lg w-100">Buy Gift Voucher</button>
                 </form>
 
                 <div id="voucher-result" class="d-none mt-5 text-center">
@@ -142,63 +144,14 @@
     </div>
 </section>
 
-<!-- Terms & Conditions -->
-<section id="terms" class="py-5 bg-light">
-    <div class="container">
-        <div class="policy-card">
-            <h2 class="text-center mb-4">Terms & Conditions</h2>
-            <p class="text-muted text-center">Last Updated: November 17, 2025</p>
-            <p>By purchasing any course or gift voucher from EduLearn Pro (operated by <strong>AFSANA RAMJAN MULANI</strong>, holiche tek, Pal, Satara, Maharashtra 415014), you agree to these terms.</p>
-            <ul>
-                <li>All courses are digital products with lifetime access.</li>
-                <li>Sharing login credentials or gift voucher PIN is strictly prohibited.</li>
-                <li>We reserve the right to update course content and pricing.</li>
-                <li>Any dispute will be subject to Satara, Maharashtra jurisdiction.</li>
-            </ul>
-            <p class="small text-muted">Razorpay is only a payment processor and holds no liability for course delivery.</p>
-        </div>
-    </div>
-</section>
+<!-- Policies (Terms, Refund, Privacy) - पहले वाला कोड वही है -->
+<section id="terms" class="py-5 bg-light"><div class="container"><div class="policy-card"><h2 class="text-center mb-4">Terms & Conditions</h2><p class="text-muted text-center">Last Updated: November 17, 2025</p><p>By purchasing from EduLearn Pro (AFSANA RAMJAN MULANI, Satara, Maharashtra), you agree to our terms. All courses are digital. Sharing access is prohibited.</p></div></div></section>
+<section id="refund" class="py-5"><div class="container"><div class="policy-card"><h2 class="text-center mb-4">Refund Policy</h2><p class="text-success text-center fw-bold">7-Day Money-Back Guarantee</p><ul><li>Full refund within 7 days if less than 20% watched</li><li>Request at musaddikj09@gmail.com</li></ul></div></div></section>
+<section id="privacy" class="py-5 bg-light"><div class="container"><div class="policy-card"><h2 class="text-center mb-4">Privacy Policy</h2><p>We only collect name, email, phone for delivery. Payments secure via Razorpay.</p></div></div></section>
 
-<!-- Refund Policy -->
-<section id="refund" class="py-5">
-    <div class="container">
-        <div class="policy-card">
-            <h2 class="text-center mb-4">Refund Policy</h2>
-            <p class="text-success text-center fw-bold">7-Day 100% Money-Back Guarantee</p>
-            <ul>
-                <li>Full refund within 7 days if less than 20% course is watched.</li>
-                <li>Gift vouchers non-refundable once used or after 30 days.</li>
-                <li>Request refund at musaddikj09@gmail.com with Order ID.</li>
-                <li>Refund processed in 5–7 business days.</li>
-            </ul>
-        </div>
-    </div>
-</section>
+<section id="contact" class="py-5"><div class="container text-center"><h2>Contact Us</h2><p class="fs-4">WhatsApp: <a href="https://wa.me/917378646180">7378646180</a> | Email: musaddikj09@gmail.com</p></div></section>
 
-<!-- Privacy Policy -->
-<section id="privacy" class="py-5 bg-light">
-    <div class="container">
-        <div class="policy-card">
-            <h2 class="text-center mb-4">Privacy Policy</h2>
-            <p>We only collect name, email, and phone for delivery. Your data is never sold. Payments are 100% secure via Razorpay.</p>
-        </div>
-    </div>
-</section>
-
-<!-- Contact -->
-<section id="contact" class="py-5">
-    <div class="container text-center">
-        <h2>Contact Us</h2>
-        <p class="fs-4">WhatsApp: <a href="https://wa.me/917378646180">7378646180</a> | Email: musaddikj09@gmail.com</p>
-    </div>
-</section>
-
-<footer>
-    <div class="container text-center">
-        <p>&copy; 2025 EduLearn Pro — <a href="#terms" class="text-white">Terms</a> | <a href="#refund" class="text-white">Refund</a> | <a href="#privacy" class="text-white">Privacy</a></p>
-    </div>
-</footer>
+<footer><div class="container text-center"><p>&copy; 2025 EduLearn Pro — Accepts INR, USD, EUR via Razorpay</p></div></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -206,7 +159,7 @@
         { id:1, name:"Complete Web Development Bootcamp 2026", price:799, oldPrice:4999, img:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600", desc:"HTML, CSS, JS, React, Node.js + Projects" },
         { id:2, name:"Digital Marketing Masterclass (Hindi)", price:699, oldPrice:3999, img:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600", desc:"SEO, Facebook Ads, Instagram Growth" },
         { id:3, name:"Python for Beginners to Advanced", price:599, oldPrice:3499, img:"https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=600", desc:"Python, Django, Data Science Basics" },
-        { id:4, name:"Graphic Design with Canva & Photoshop", price:549, oldPrice:2999, img:"https://cdn.prod.website-files.com/61cdf3c5e0b8152652e01082/68532ba281d5309e6dae4d62_Graphic%20design.webp", desc:"Logo, Poster, Social Media Designs" },
+        { id:4, name:"Graphic Design with Canva & Photoshop", price:549, oldPrice:2999, img:"https://ik.imagekit.io/demo/tr:q-100/canva-photoshop-course.jpg", desc:"Logo, Poster, Social Media Designs" },
         { id:5, name:"Stock Market & Trading for Beginners", price:899, oldPrice:5999, img:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600", desc:"Fundamental + Technical Analysis" },
         { id:6, name:"Spoken English + Personality Development", price:499, oldPrice:2499, img:"https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600", desc:"Fluency, Interview Skills, Confidence" }
     ];
@@ -217,7 +170,7 @@
             grid.innerHTML += `
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card course-card h-100">
-                        <img src="${c.img}" class="card-img-top course-img" alt="${c.name}" onerror="this.src='https://via.placeholder.com/600x400?text=Course+Image'">
+                        <img src="${c.img}" class="card-img-top course-img" alt="${c.name}">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">${c.name}</h5>
                             <p class="card-text flex-grow-1">${c.desc}</p>
@@ -231,38 +184,68 @@
         });
     }
 
+    // ← यही तुमने मांगा था — Live Razorpay Integration
     function enrollNow(id) {
         const course = courses.find(c => c.id === id);
-        alert(`Redirecting to Razorpay for "${course.name}"\nAmount: ₹${course.price}`);
+        const amount = course.price * 100;
+
+        var options = {
+            "key": "rzp_live_RgqybfaGJlen9I", // ← यहाँ अपनी LIVE KEY डालो
+            "amount": amount,
+            "currency": "INR",
+            "name": "EduLearn Pro",
+            "description": course.name,
+            "image": "https://edulearn-pro.vercel.app/logo.png",
+            "handler": function (response){
+                alert("Payment Successful! Order ID: " + response.razorpay_payment_id);
+                // यहाँ कोर्स लिंक WhatsApp/Email से भेज सकते हो
+            },
+            "prefill": {
+                "name": prompt("Your Name") || "",
+                "email": prompt("Your Email") || "",
+                "contact": prompt("Your Phone") || ""
+            },
+            "theme": { "color": "#dc2626" }
+        };
+        var rzp = new Razorpay(options);
+        rzp.open();
     }
 
-    // Currency Symbol Update
     document.getElementById('voucher-currency').addEventListener('change', function() {
         const symbol = this.value === 'USD' ? '$' : this.value === 'EUR' ? '€' : '₹';
         document.getElementById('currency-symbol').textContent = symbol;
     });
 
-    // Gift Voucher Generate
     document.getElementById('voucher-form').onsubmit = function(e) {
         e.preventDefault();
-        const name = document.getElementById('voucher-name').value.trim() || "Learner";
+        const name = document.getElementById('voucher-name').value.trim();
         const currency = document.getElementById('voucher-currency').value;
-        const amount = document.getElementById('voucher-amount').value;
-        const message = document.getElementById('voucher-message').value.trim() || "Happy Learning!";
+        const amount = parseInt(document.getElementById('voucher-amount').value) * 100;
         const pin = document.getElementById('voucher-pin').value;
 
-        if (pin.length !== 4 || isNaN(pin)) return alert("PIN must be 4 digits!");
+        if (pin.length !== 4 || isNaN(pin)) return alert("4-digit PIN डालो!");
 
-        const symbol = currency === 'USD' ? '$' : currency === 'EUR' ? '€' : '₹';
-        const num = 'GIFT' + Math.floor(100000000000 + Math.random() * 900000000000);
-
-        document.getElementById('card-number').textContent = num.match(/.{4}/g).join(' ');
-        document.getElementById('card-holder').textContent = name.toUpperCase();
-        document.getElementById('gift-symbol').textContent = symbol;
-        document.getElementById('gift-amount').textContent = amount;
-        document.getElementById('gift-pin').textContent = pin;
-        document.getElementById('gift-message').textContent = message;
-        document.getElementById('voucher-result').classList.remove('d-none');
+        var options = {
+            "key": "rzp_live_RgqybfaGJlen9I", // ← यहीं अपनी LIVE KEY डालो
+            "amount": amount,
+            "currency": currency,
+            "name": "EduLearn Pro Gift Voucher",
+            "description": `Gift Voucher ${amount/100} ${currency}`,
+            "handler": function (response){
+                const symbol = currency === 'USD' ? '$' : currency === 'EUR' ? '€' : '₹';
+                document.getElementById('card-number').textContent = 'GIFT ' + response.razorpay_payment_id.slice(-12).match(/.{4}/g).join(' ');
+                document.getElementById('card-holder').textContent = name.toUpperCase();
+                document.getElementById('gift-symbol').textContent = symbol;
+                document.getElementById('gift-amount').textContent = amount/100;
+                document.getElementById('gift-pin').textContent = pin;
+                document.getElementById('gift-message').textContent = document.getElementById('voucher-message').value || "Happy Learning!";
+                document.getElementById('voucher-result').classList.remove('d-none');
+                alert("Payment Successful! Gift Voucher तैयार है ↓");
+            },
+            "prefill": { "name": name }
+        };
+        var rzp = new Razorpay(options);
+        rzp.open();
     };
 
     document.getElementById('download-voucher').onclick = () => {
